@@ -21,6 +21,7 @@ function App() {
   /*
    todo:
     * style whole app & display selected name better than alert
+    * investigate entering csv names to populate names array
    */
   const pickName = () => {
     alert(names[Math.floor(Math.random() * names.length)]);
@@ -33,6 +34,7 @@ function App() {
   /*
   todo:
     * make reusable components
+    * get key for the list items
   */
   return (
     <div className="App">
