@@ -4,29 +4,32 @@ import "./styles.css";
 
 function App() {
   const [names, setNames] = useLocalStorageState("names", []);
+  const [count, setCount] = useLocalStorageState("count", 0);
   const handleSubmit = (event) => {
-    /*
-    todo:
-     * validate for dupilicates
-     * clear input as name is added
-     * show counter, e.g. 2/10 names added
-    */
     event.preventDefault();
+    const newName = event.target.elements.name.value;
     const namesCopy = [...names];
-    namesCopy.push(event.target.elements.name.value);
+    if (namesCopy[namesCopy.length - 1] === newName) {
+      /* return for now, proper validation needed */
+      return;
+    }
+    namesCopy.push(newName);
     setNames(namesCopy);
+    setCount(namesCopy.length);
+    event.target.elements.name.value = "";
   };
   /*
    todo:
-    * disable pick/reset buttons when no names
-    * disable plus button when list is full
     * style whole app & display selected name better than alert
    */
   const pickName = () => {
     alert(names[Math.floor(Math.random() * names.length)]);
   };
 
-  const reset = () => setNames([]);
+  const reset = () => {
+    setCount(0);
+    setNames([]);
+  };
   /*
   todo:
     * make reusable components
@@ -36,11 +39,18 @@ function App() {
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Enter name: </label>
         <input id="name" />
-        <button type="submit">+</button>
+        <button type="submit" disabled={names.length > 4 ? true : false}>
+          +
+        </button>
+        <p>{count}/5 names added.</p>
       </form>
       <div>
-        <button onClick={pickName}>pick</button>
-        <button onClick={reset}>reset</button>
+        <button onClick={pickName} disabled={names.length <= 1 ? true : false}>
+          pick
+        </button>
+        <button onClick={reset} disabled={names.length === 0 ? true : false}>
+          reset
+        </button>
       </div>
       {names && names.map((name) => <li>{name}</li>)}
     </div>
