@@ -26,11 +26,7 @@ function App() {
     alert(names[Math.floor(Math.random() * names.length)]);
   };
 
-  /* 
-  todo: 
-    * re-render list when local storage is cleared
-  */
-  const reset = () => window.localStorage.removeItem("names");
+  const reset = () => setNames([]);
   /*
   todo:
     * make reusable components
